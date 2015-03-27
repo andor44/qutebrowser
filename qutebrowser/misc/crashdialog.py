@@ -548,26 +548,26 @@ def dump_exception_info(exc, pages, cmdhist, objects):
         objects: A list of all QObjects as string.
     """
     print(file=sys.stderr)
-    print("===== Handling exception with --no-err-windows... =====",
+    print("\n\n===== Handling exception with --no-err-windows... =====\n\n",
           file=sys.stderr)
-    print("---- Exceptions ----", file=sys.stderr)
+    print("\n---- Exceptions ----", file=sys.stderr)
     print(''.join(traceback.format_exception(*exc)), file=sys.stderr)
-    print("---- Version info ----", file=sys.stderr)
+    print("\n---- Version info ----", file=sys.stderr)
     try:
         print(version.version(), file=sys.stderr)
     except Exception:
         traceback.print_exc()
-    print("---- Config ----", file=sys.stderr)
+    print("\n---- Config ----", file=sys.stderr)
     try:
         conf = objreg.get('config')
         print(conf.dump_userconfig(), file=sys.stderr)
     except Exception:
         traceback.print_exc()
-    print("---- Commandline args ----", file=sys.stderr)
+    print("\n---- Commandline args ----", file=sys.stderr)
     print(' '.join(sys.argv[1:]), file=sys.stderr)
-    print("---- Open pages ----", file=sys.stderr)
+    print("\n---- Open pages ----", file=sys.stderr)
     print('\n\n'.join('\n'.join(e) for e in pages), file=sys.stderr)
-    print("---- Command history ----", file=sys.stderr)
+    print("\n---- Command history ----", file=sys.stderr)
     print('\n'.join(cmdhist), file=sys.stderr)
-    print("---- Objects ----", file=sys.stderr)
+    print("\n---- Objects ----", file=sys.stderr)
     print(objects, file=sys.stderr)

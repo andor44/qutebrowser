@@ -175,7 +175,8 @@ class Application(QApplication):
         log.init.debug("Initializing web history...")
         history.init()
         log.init.debug("Initializing crashlog...")
-        self._handle_segfault()
+        if not self._args.no_err_windows:
+            self._handle_segfault()
         log.init.debug("Initializing sessions...")
         session_manager = sessions.SessionManager(self)
         objreg.register('session-manager', session_manager)
@@ -239,6 +240,7 @@ class Application(QApplication):
 
     def _init_crashlogfile(self):
         """Start a new logfile and redirect faulthandler to it."""
+        assert not self._args.no_err_windows
         logname = os.path.join(standarddir.data(), 'crash.log')
         try:
             self._crashlogfile = open(logname, 'w', encoding='ascii')
@@ -634,7 +636,7 @@ class Application(QApplication):
             log.destroy.exception("Error while preventing shutdown")
         QApplication.closeAllWindows()
         if self._args.no_err_windows:
-            crashdialog.dump_exception_info(exc, pages, cmd_history, objreg)
+            crashdialog.dump_exception_info(exc, pages, cmd_history, objects)
         else:
             self._crashdlg = crashdialog.ExceptionCrashDialog(
                 self._args.debug, pages, cmd_history, exc, objects)
